@@ -1,0 +1,63 @@
+1. 회원&게시판
+ 
+--회원이 게시판에 접근하다 
+select * from board where member_id ='aaa@gmail.com';
+
+--문의 게시판이랑 게시판 조인해서 문의게시판 글 조회
+select * from board b, board_ana bq where b.b_index = bq.b_index;
+
+--문의 게시판이랑 게시판 조인해서 문의게시판에 aaa유저가 쓴 글 조회
+select * from board b, board_ana bq where b.b_index = bq.b_index and member_id='aaa';
+
+--게시판과 첨부파일 join해 확장자가 jpg파일인 게시판만 조회
+select * from board b, attachment att where b.b_index = att.b_index and extension='jpg';
+
+--게시판 글 보기를 하면 글내용과 댓글 조회 가능한지 확인
+select * from board b, board_br.reply br where b.bindex = br.b_index;
+
+--인증게시판 글 보기를 하면 글내용+댓글+첨부파일 한번에 조회
+select * from board b, attachment att, board_reply br where b.b_index = att.b._index and b.b_index=br.b_index;
+
+--aaa가 쓴 댓글 조회
+select * from board where rid='aaa';
+
+2. 회원&이벤트&포인트 
+
+-- 출석체크를 한 회원을 조회
+select * from event where ecat_num=1 and prtstat='Y';
+
+-- 출석체크를 안한 회원을 조회
+select * from event where ecat_num=1 and prtstat='N';
+
+-- 게임 중 로또 게임 조회
+select * from event e, event_game_lotto el where e.e_num = el.e_num;
+
+-- 로또 당첨된 회원의 포인트 조회  
+select * from point where eventname='로또' and prtpnt=500;
+
+
+3. 회원& 후원금 
+-- 회원과 후원금 조회 
+select * from member m, donation d where m.member_id = d.member_id;
+
+-- 회원 + 후원금 + 결제방법
+select * from donation d, payment_plan p whrer d.pcat_num = p.pcat_num;
+
+-- 포인트로 후원한 회원 조회
+select * from donation where pcat_num=3;
+
+4. 물품 
+
+-- 222번 자판기에 출고된 물품갯수와 물품명 조회
+select * from item i, i_output io where i.icat_num = io.icat_num and io.vm_num=222;
+
+-- 자판기 222에서 남아 있는 잔여수량 
+select amount from vendingmachine vm, i_output io where vm.vmindex = io.vmindex and vm_num=222; 
+
+-- 회원이 특정 자판기(222)에서 가져간 수량과 물품 확인
+select * from m_get_item mg, vendingmachine vm where mg.vmindex = vm.vmindex and vm.vm_num=222;
+
+--회원이 물품기부신청했는지 조회 
+select * from member, itemdonation where member.dntcnt=0;
+
+select * from member, itemdonation where member.dntcnt!=0;

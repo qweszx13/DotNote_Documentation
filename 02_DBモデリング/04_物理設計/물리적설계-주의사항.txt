@@ -1,0 +1,2 @@
+결과물은 Exerd 갭쳐,
+Sql developer 에서 제공하는 관계도 캡쳐 할것
